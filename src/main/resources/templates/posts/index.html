@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="partials :: head('All Posts')"></th:block>
+<body>
+<nav th:replace="partials :: nav"></nav>
+<section class="container">
+	<h1>All Posts</h1>
+	<div class="post" th:each="post : ${posts}">
+		<h3 class="post-title"><a class="text-decoration-none" href="/posts/1" th:text="${post.title}">Title</a></h3>
+		<p class="post-body" th:text="${post.body}">Body</p>
+	</div>
+</section>
+<footer th:replace="partials :: footer"></footer>
+<th:block th:replace="partials :: scripts"></th:block>
+</body>
+</html>

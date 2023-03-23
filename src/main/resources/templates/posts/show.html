@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="partials :: head(${post.title})"></th:block>
+<body>
+<nav th:replace="partials :: nav"></nav>
+<section class="container">
+	<h1 id="post-title" th:text="${post.title}">Title</h1>
+	<p id="post-body" th:text="${post.body}">Body</p>
+</section>
+<footer th:replace="partials :: footer"></footer>
+
+<th:block th:replace="partials :: scripts"></th:block>
+</body>
+</html>
