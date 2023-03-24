@@ -6,22 +6,43 @@
 </head>
 <body>
 <nav th:replace="partials :: nav"></nav>
-<h1>Make a guess</h1>
-<ul id="dice-roll">
-	<li class="dice-choice"><a href="/roll-dice/1">1</a></li>
-	<li class="dice-choice"><a href="/roll-dice/2">2</a></li>
-	<li class="dice-choice"><a href="/roll-dice/3">3</a></li>
-	<li class="dice-choice"><a href="/roll-dice/4">4</a></li>
-	<li class="dice-choice"><a href="/roll-dice/5">5</a></li>
-	<li class="dice-choice"><a href="/roll-dice/6">6</a></li>
-</ul>
-<div id="dice-result" th:if="${result}">
-	<h3>Dice were rolled!</h3>
-	<p th:text="'Rolled a ' + ${result}"></p>
-	<p th:text="'You picked ' + ${guess}"></p>
-	<p th:if="${result == guess}">You got it!</p>
-	<p th:if="${result != guess}">Try again.</p>
-	<p th:text="'Correct: %' + ${percentCorrect}"></p>
+<div class="container">
+	<h1>Dice Rolling Game!</h1>
+	<h3>Make a guess</h3>
+	<form class="d-flex flex-column" action="/roll-dice" method="post">
+		<div class="d-flex flex-row w-50">
+			<th:block th:each="i : ${#numbers.sequence(1,6)}">
+				<div class="form-check form-check-inline">
+					<!--suppress HtmlFormInputWithoutLabel -->
+					<input class="form-check-input" type="radio" name="guess" th:id="'guess' + ${i}" th:value="${i}"
+					       th:checked="${i == guess}">
+					<label class="form-check-label" th:for="'guess' + ${i}" th:text="${i}"></label>
+				</div>
+			</th:block>
+		</div>
+		<div class="w-50">
+			<label for="number-of-rolls" class="form-label">Number of rolls</label>
+			<input type="range" class="form-range" id="number-of-rolls" name="numberOfRolls" min="1" max="10000"
+			       th:value="${numberOfRolls}"
+			       oninput="this.nextElementSibling.value = this.value">
+			<output th:text="${numberOfRolls} ? ${numberOfRolls} : '5001'"></output>
+		</div>
+		<input type="submit" class="btn btn-primary w-25" value="roll">
+	</form>
+	<div class="row" id="dice-result" th:if="${results}">
+		<h3 class="col-12">Dice were rolled!</h3>
+		<p class="col-6" th:text="'You picked: ' + ${guess}"></p>
+		<p class="col-6" th:text="'Correct: %' + ${percentCorrect}"></p>
+		<h3 class="col-12">Results</h3>
+		<th:block th:each="result : ${results}">
+			<div class="d-flex col-6 col-md-4 col-lg-2 justify-content-evenly"
+			     th:classappend="${result == guess} ? 'text-success' : 'text-danger'">
+				<p th:text="'Roll: ' + ${result}"></p>
+				<p th:if="${result == guess}">You got it!</p>
+				<p th:if="${result != guess}">Unlucky.</p>
+			</div>
+		</th:block>
+	</div>
 </div>
 <footer th:replace="partials :: footer"></footer>
 
