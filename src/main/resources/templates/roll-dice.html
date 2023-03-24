@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="partials :: head('Roll Dice')"></th:block>
+<head>
+	<th:block th:replace="partials :: head"></th:block>
+	<title>Roll Dice</title>
+</head>
 <body>
 <nav th:replace="partials :: nav"></nav>
 <h1>Make a guess</h1>
