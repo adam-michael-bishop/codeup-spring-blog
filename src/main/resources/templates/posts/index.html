@@ -9,7 +9,7 @@
 <section class="container">
 	<h1>All Posts</h1>
 	<div class="post" th:each="post : ${posts}">
-		<h3 class="post-title"><a class="text-decoration-none" href="/posts/1" th:text="${post.title}">Title</a></h3>
+		<h3 class="post-title"><a class="text-decoration-none" th:href="${'/posts/' + post.id}" th:text="${post.title}">Title</a></h3>
 		<p class="post-body" th:text="${post.body}">Body</p>
 	</div>
 </section>
