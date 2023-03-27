@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:replace="partials :: head"></th:block>
 	<title th:text="${post.title}">Title</title>
 </head>
-<body>
+<body class="h-100 d-flex flex-column">
 <nav th:replace="partials :: nav"></nav>
-<section class="container">
-	<h1 id="post-title" th:text="${post.title}">Title</h1>
+<section class="container mt-3">
+	<div class="d-flex flex-row align-items-center">
+		<h1 id="post-title" th:text="${post.title}">Title</h1>
+		<h3 id="user-email" class="text-secondary ms-auto" th:text="${user.email}">User Email</h3>
+	</div>
 	<p id="post-body" th:text="${post.body}">Body</p>
 </section>
 <footer th:replace="partials :: footer"></footer>

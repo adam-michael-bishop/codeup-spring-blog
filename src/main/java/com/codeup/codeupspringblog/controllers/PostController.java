@@ -1,6 +1,7 @@
 package com.codeup.codeupspringblog.controllers;
 
 import com.codeup.codeupspringblog.models.Post;
+import com.codeup.codeupspringblog.models.User;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Controller
 public class PostController {
     private final PostRepository postRepo;
+    private final UserRepository userRepo;
 
     @GetMapping("/posts")
     public String allPostsView(Model model) {
@@ -28,7 +30,17 @@ public class PostController {
     public String postView(@PathVariable Long id, Model model) {
         Optional<Post> post = postRepo.findById(id);
         //        Post post = new Post("Placeholder Post", "This post is a placeholder that will eventually show the post with the id: " + id);
-        post.ifPresent(value -> model.addAttribute("post", value));
+        try {
+            post.ifPresent(newPost -> {
+                model.addAttribute("post", newPost);
+                Optional<User> user = userRepo.findById(newPost.getUser().getId());
+                user.ifPresent(newUser -> model.addAttribute("user", newUser));
+            });
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            //replace with error page
+            return "posts/show";
+        }
         return "posts/show";
     }
 
@@ -42,6 +54,13 @@ public class PostController {
         Post post = new Post();
         post.setTitle(title);
         post.setBody(body);
+        try {
+            userRepo.findById(1L).ifPresent(post::setUser);
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            //replace with error page
+            return "redirect:/posts";
+        }
         postRepo.save(post);
         return "redirect:/posts";
     }
