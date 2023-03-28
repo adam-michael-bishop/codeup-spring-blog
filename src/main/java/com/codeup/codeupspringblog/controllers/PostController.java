@@ -20,8 +20,6 @@ public class PostController {
     @GetMapping("/posts")
     public String allPostsView(Model model) {
         List<Post> posts = postRepo.findAll();
-//        posts.add(new Post("My First Post", "This is exciting, blogging much fun."));
-//        posts.add(new Post("My Last Post", "Screw this, y'all are wild."));
         model.addAttribute("posts", posts);
         return "posts/index";
     }
@@ -29,7 +27,6 @@ public class PostController {
     @GetMapping("/posts/{id}")
     public String postView(@PathVariable Long id, Model model) {
         Optional<Post> post = postRepo.findById(id);
-        //        Post post = new Post("Placeholder Post", "This post is a placeholder that will eventually show the post with the id: " + id);
         try {
             post.ifPresent(newPost -> {
                 model.addAttribute("post", newPost);
@@ -45,15 +42,14 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String postsCreateView() {
+    public String postsCreateView(Model model) {
+        Post post = new Post();
+        model.addAttribute("post", post);
         return "posts/create";
     }
 
-    @PostMapping("/posts/create")
-    public String createPost(@RequestParam("post-title") String title, @RequestParam("post-body") String body) {
-        Post post = new Post();
-        post.setTitle(title);
-        post.setBody(body);
+    @PostMapping("/posts/save")
+    public String createPost(@ModelAttribute Post post) {
         try {
             userRepo.findById(1L).ifPresent(post::setUser);
         } catch (NullPointerException e) {
@@ -63,5 +59,17 @@ public class PostController {
         }
         postRepo.save(post);
         return "redirect:/posts";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String postsEditView(Model model, @PathVariable Long id) {
+        try {
+            postRepo.findById(id).ifPresent(post -> model.addAttribute("post", post));
+        } catch (NullPointerException e) {
+            System.out.println(e);
+            //replace with error page
+            return "redirect:/posts";
+        }
+        return "posts/edit";
     }
 }
