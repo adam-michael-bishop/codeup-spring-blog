@@ -13,18 +13,19 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
+@RequestMapping("/posts")
 public class PostController {
     private final PostRepository postRepo;
     private final UserRepository userRepo;
 
-    @GetMapping("/posts")
+    @GetMapping
     public String allPostsView(Model model) {
         List<Post> posts = postRepo.findAll();
         model.addAttribute("posts", posts);
         return "posts/index";
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     public String postView(@PathVariable Long id, Model model) {
         Optional<Post> post = postRepo.findById(id);
         try {
@@ -41,15 +42,15 @@ public class PostController {
         return "posts/show";
     }
 
-    @GetMapping("/posts/create")
+    @GetMapping("/create")
     public String postsCreateView(Model model) {
         Post post = new Post();
         model.addAttribute("post", post);
         return "posts/create";
     }
 
-    @PostMapping("/posts/save")
-    public String createPost(@ModelAttribute Post post) {
+    @PostMapping("/save")
+    public String savePost(@ModelAttribute Post post) {
         try {
             userRepo.findById(1L).ifPresent(post::setUser);
         } catch (NullPointerException e) {
@@ -61,7 +62,7 @@ public class PostController {
         return "redirect:/posts";
     }
 
-    @GetMapping("/posts/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String postsEditView(Model model, @PathVariable Long id) {
         try {
             postRepo.findById(id).ifPresent(post -> model.addAttribute("post", post));
