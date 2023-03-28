@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:replace="partials :: head"></th:block>
+	<th:block th:replace="~{partials :: head}"></th:block>
 	<title>Roll Dice</title>
 </head>
 <body class="h-100 d-flex flex-column">
-<nav th:replace="partials :: nav"></nav>
+<nav th:replace="~{partials :: nav}"></nav>
 <div class="container">
 	<h1>Dice Rolling Game!</h1>
 	<h3>Make a guess</h3>
@@ -44,8 +44,8 @@
 		</th:block>
 	</div>
 </div>
-<footer th:replace="partials :: footer"></footer>
+<footer th:replace="~{partials :: footer}"></footer>
 
-<th:block th:replace="partials :: scripts"></th:block>
+<th:block th:replace="~{partials :: scripts}"></th:block>
 </body>
 </html>

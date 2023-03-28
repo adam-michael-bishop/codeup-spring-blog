@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:replace="partials :: head"></th:block>
+	<th:block th:replace="~{partials :: head}"></th:block>
 	<title>All Posts</title>
 </head>
 <body class="h-100 d-flex flex-column">
-<nav th:replace="partials :: nav"></nav>
+<nav th:replace="~{partials :: nav}"></nav>
 <section class="container">
 	<h1>All Posts</h1>
 	<div class="post" th:each="post : ${posts}">
@@ -13,7 +13,7 @@
 		<p class="post-body" th:text="${post.body}">Body</p>
 	</div>
 </section>
-<footer th:replace="partials :: footer"></footer>
-<th:block th:replace="partials :: scripts"></th:block>
+<footer th:replace="~{partials :: footer}"></footer>
+<th:block th:replace="~{partials :: scripts}"></th:block>
 </body>
 </html>

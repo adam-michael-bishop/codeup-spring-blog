@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<th:block th:replace="partials :: head"></th:block>
+	<th:block th:replace="~{partials :: head}"></th:block>
 	<title th:text="${post.title}">Title</title>
 </head>
 <body class="h-100 d-flex flex-column">
-<nav th:replace="partials :: nav"></nav>
+<nav th:replace="~{partials :: nav}"></nav>
 <section class="container mt-3">
 	<div class="d-flex flex-row align-items-center">
 		<h1 id="post-title" th:text="${post.title}">Title</h1>
@@ -13,8 +13,8 @@
 	</div>
 	<p id="post-body" th:text="${post.body}">Body</p>
 </section>
-<footer th:replace="partials :: footer"></footer>
+<footer th:replace="~{partials :: footer}"></footer>
 
-<th:block th:replace="partials :: scripts"></th:block>
+<th:block th:replace="~{partials :: scripts}"></th:block>
 </body>
 </html>
