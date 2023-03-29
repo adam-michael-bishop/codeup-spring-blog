@@ -6,7 +6,7 @@
 	<title>Edit Post</title>
 </head>
 <body class="h-100 d-flex flex-column">
-<nav th:replace="~{partials :: nav}"></nav>
+<th:block th:replace="~{partials :: nav}"></th:block>
 <div class="container">
 	<h1 th:text="${'Editing Post: ' + post.title}">Editing Post</h1>
 	<form th:action="@{/posts/save}" th:method="post" th:object="${post}">
