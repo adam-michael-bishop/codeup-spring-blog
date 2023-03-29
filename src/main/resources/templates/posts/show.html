@@ -6,13 +6,44 @@
 </head>
 <body class="h-100 d-flex flex-column">
 <nav th:replace="~{partials :: nav}"></nav>
+<div id="alert-wrapper" class="fixed-top w-50 mt-3 align-self-center modal-"></div>
 <section class="container mt-3">
 	<div class="d-flex flex-row align-items-center">
 		<h1 id="post-title" th:text="${post.title}">Title</h1>
-		<h3 id="user-email" class="text-secondary ms-auto" th:text="${user.email}">User Email</h3>
+		<p id="user-email" class="text-secondary ms-auto fs-6" th:text="${post.user.email}">User Email</p>
 	</div>
 	<p id="post-body" th:text="${post.body}">Body</p>
 </section>
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
+	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Edit Post</h5>
+				<button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
+			</div>
+			<div class="modal-body">
+				<form id="edit-post-form" action="#" method="post" th:object="${post}">
+					<input type="hidden" id="post-id" th:field="*{id}">
+					<div class="mb-3">
+						<label for="edit-post-title" class="form-label">Edit Title</label>
+						<input type="text" class="form-control" id="edit-post-title" placeholder="Title"
+						       th:field="*{title}">
+					</div>
+					<div class="mb-3">
+						<label for="edit-post-body" class="form-label">Edit Body</label>
+						<textarea class="form-control" id="edit-post-body" rows="3" th:field="*{body}"></textarea>
+					</div>
+					<div class="d-flex align-items-center">
+						<button type="submit" id="form-submit" class="btn btn-primary">Save Changes</button>
+						<div class="ms-auto">
+							<span id="submission-message"></span>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <footer th:replace="~{partials :: footer}"></footer>
 
 <th:block th:replace="~{partials :: scripts}"></th:block>
