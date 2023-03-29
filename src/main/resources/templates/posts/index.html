@@ -21,7 +21,7 @@
 				<button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<form id="create-post-form" action="#" method="post" th:object="${post}">
+				<form id="create-post-form" th:object="${post}">
 					<input type="hidden" id="post-id" th:field="*{id}">
 					<div class="mb-3">
 						<label for="create-post-title" class="form-label">Title</label>

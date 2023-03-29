@@ -14,7 +14,7 @@
 	</div>
 	<p id="post-body" th:text="${post.body}">Body</p>
 </section>
-<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog">
+<div class="modal fade" id="edit-post-modal" tabindex="-1" role="dialog">
 	<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -22,7 +22,7 @@
 				<button type="button" class="btn-close ms-auto" data-bs-dismiss="modal"></button>
 			</div>
 			<div class="modal-body">
-				<form id="edit-post-form" action="#" method="post" th:object="${post}">
+				<form id="edit-post-form" th:object="${post}">
 					<input type="hidden" id="post-id" th:field="*{id}">
 					<div class="mb-3">
 						<label for="edit-post-title" class="form-label">Edit Title</label>
