@@ -3,6 +3,7 @@ package com.codeup.codeupspringblog.controllers;
 import com.codeup.codeupspringblog.models.Post;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import com.codeup.codeupspringblog.repositories.UserRepository;
+import com.codeup.codeupspringblog.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PostController {
     private final PostRepository postRepo;
     private final UserRepository userRepo;
+    private final EmailService emailService;
 
     @GetMapping
     public String allPostsView(Model model) {
@@ -33,7 +35,7 @@ public class PostController {
         try {
             postRepo.findById(id).ifPresent(post -> model.addAttribute("post", post));
         } catch (NullPointerException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
             //replace with error page
             return "posts/show";
         }
@@ -53,12 +55,24 @@ public class PostController {
         try {
             userRepo.findById(1L).ifPresent(post::setUser);
         } catch (NullPointerException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
             //replace with error page
 //            return "redirect:/posts";
         }
         postRepo.save(post);
 //        return "redirect:/posts";
+    }
+
+    @PostMapping("/create")
+    @ResponseStatus(HttpStatus.OK)
+    public void createPost(@ModelAttribute Post post) {
+        try {
+            userRepo.findById(1L).ifPresent(post::setUser);
+        } catch (NullPointerException e) {
+            System.err.println(e.getMessage());
+        }
+        postRepo.save(post);
+        emailService.prepareAndSend(post, "New post created: \"" + post.getTitle() + "\"", "A new post has been added by your account.");
     }
 
     //Not using postsEditView anymore, it can still be accessed by url
@@ -68,7 +82,7 @@ public class PostController {
         try {
             postRepo.findById(id).ifPresent(post -> model.addAttribute("post", post));
         } catch (NullPointerException e) {
-            System.out.println(e);
+            System.err.println(e.getMessage());
             //replace with error page
             return "redirect:/posts";
         }
