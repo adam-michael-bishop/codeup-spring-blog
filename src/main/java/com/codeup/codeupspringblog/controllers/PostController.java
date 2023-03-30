@@ -72,7 +72,7 @@ public class PostController {
             System.err.println(e.getMessage());
         }
         postRepo.save(post);
-        emailService.prepareAndSend(post, "New post created: \"" + post.getTitle() + "\"", "A new post has been added by your account.");
+        emailService.prepareAndSend(post, "New post created: \"" + post.getTitle() + "\"", "A new post has been added by your account: \n" + post.getBody());
     }
 
     //Not using postsEditView anymore, it can still be accessed by url
