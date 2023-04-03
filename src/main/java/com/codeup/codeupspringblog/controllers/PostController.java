@@ -1,11 +1,13 @@
 package com.codeup.codeupspringblog.controllers;
 
 import com.codeup.codeupspringblog.models.Post;
+import com.codeup.codeupspringblog.models.User;
 import com.codeup.codeupspringblog.repositories.PostRepository;
 import com.codeup.codeupspringblog.repositories.UserRepository;
 import com.codeup.codeupspringblog.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,17 +68,19 @@ public class PostController {
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
     public void createPost(@ModelAttribute Post post) {
-        try {
-            userRepo.findById(1L).ifPresent(post::setUser);
-        } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            try {
+                userRepo.findById(((User) principal).getId()).ifPresent(post::setUser);
+                postRepo.save(post);
+                emailService.prepareAndSend(post, "New post created: \"" + post.getTitle() + "\"", "A new post has been added by your account: \n" + post.getBody());
+            } catch (NullPointerException e) {
+                System.err.println(e.getMessage());
+            }
         }
-        postRepo.save(post);
-        emailService.prepareAndSend(post, "New post created: \"" + post.getTitle() + "\"", "A new post has been added by your account: \n" + post.getBody());
     }
 
     //Not using postsEditView anymore, it can still be accessed by url
-    @Deprecated
     @GetMapping("/{id}/edit")
     public String postsEditView(Model model, @PathVariable Long id) {
         try {

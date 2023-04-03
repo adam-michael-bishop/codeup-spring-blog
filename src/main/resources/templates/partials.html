@@ -1,5 +1,5 @@
 <!--suppress HtmlUnknownTag -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="head">
 	<meta charset="UTF-8">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,12 +15,23 @@
 			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 				<div class="navbar-nav">
 					<a class="btn btn-link nav-link" href="/posts">posts</a>
-					<button class="btn btn-link nav-link" data-bs-toggle="modal" data-bs-target="#create-post-modal">create</button>
-					<button th:if="${editing}" class="nav-link btn btn-link" id="edit" data-bs-toggle="modal" data-bs-target="#edit-post-modal">edit</button>
+					<th:block sec:authorize="isAuthenticated()">
+						<button class="btn btn-link nav-link" data-bs-toggle="modal"
+						        data-bs-target="#create-post-modal">create
+						</button>
+						<button th:if="${editing}" class="nav-link btn btn-link" id="edit" data-bs-toggle="modal"
+						        data-bs-target="#edit-post-modal">edit
+						</button>
+					</th:block>
 				</div>
 				<div class="navbar-nav ms-auto">
 					<a href="/login" class="btn btn-link nav-link">login</a>
-					<a href="/register" class="btn btn-link nav-link">register</a>
+					<a href="/sign-up" class="btn btn-link nav-link">sign up</a>
+					<th:block sec:authorize="isAuthenticated()">
+						<form th:action="@{/logout}" th:method="post">
+							<button type="submit" class="btn-link btn nav-link">logout</button>
+						</form>
+					</th:block>
 				</div>
 			</div>
 		</div>

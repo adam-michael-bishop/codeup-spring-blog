@@ -24,4 +24,12 @@ public class User {
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Post> posts;
+
+    public User(User copy) {
+        id = copy.id;
+        username = copy.username;
+        email = copy.email;
+        password = copy.password;
+        posts = copy.posts;
+    }
 }
