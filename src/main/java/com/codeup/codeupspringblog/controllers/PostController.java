@@ -67,15 +67,6 @@ public class PostController {
         }
     }
 
-    private static User getLoggedInUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof User) {
-            return (User) principal;
-        } else {
-            return new User(-1L, "AnonymousUser", null, null, null);
-        }
-    }
-
     @PostMapping("/create")
     @ResponseStatus(HttpStatus.OK)
     public void createPost(@ModelAttribute Post post) {
@@ -107,5 +98,24 @@ public class PostController {
             return "redirect:/posts/" + id;
         }
         return "posts/old-edit";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deletePost(@PathVariable Long id) {
+        postRepo.findById(id).ifPresent(post -> {
+            if (post.getUser().getId().equals(getLoggedInUser().getId())) {
+                postRepo.delete(post);
+            }
+        });
+        return "redirect:/posts";
+    }
+
+    private static User getLoggedInUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return (User) principal;
+        } else {
+            return new User(-1L, "AnonymousUser", null, null, null);
+        }
     }
 }

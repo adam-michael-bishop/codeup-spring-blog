@@ -44,9 +44,10 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/posts/create", // only authenticated users can create ads
-                        "/posts/{id}/edit", // only authenticated users can edit ads
-                        "/posts/save" // only authenticated users can edit ads
+                        "/posts/create", // only authenticated users can create posts
+                        "/posts/{id}/edit", // only authenticated users can edit posts
+                        "/posts/save", // only authenticated users can edit posts
+                        "/posts/{id}/delete" // only authenticated users can delete posts
                 )
                 .authenticated()
                 /* Pages that can be viewed without having to log in */
