@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html class="h-100" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<th:block th:replace="~{partials :: head}"></th:block>
 	<title>Roll Dice</title>
@@ -9,7 +9,7 @@
 <div class="container">
 	<h1>Dice Rolling Game!</h1>
 	<h3>Make a guess</h3>
-	<form class="d-flex flex-column" action="/roll-dice" method="post">
+	<form class="d-flex flex-column" th:action="@{/roll-dice}" th:method="post">
 		<div class="d-flex flex-row w-50">
 			<th:block th:each="i : ${#numbers.sequence(1,6)}">
 				<div class="form-check form-check-inline">
