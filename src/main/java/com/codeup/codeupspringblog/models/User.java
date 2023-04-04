@@ -22,7 +22,7 @@ public class User {
     private String email;
     @Column(nullable = false, length = 128)
     private String password;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<Post> posts;
 
     public User(User copy) {
