@@ -14,7 +14,7 @@
 		<p id="user-email" class="text-secondary ms-auto fs-6" th:text="${post.user.email}">User Email</p>
 	</div>
 	<p id="post-body" th:text="${post.body}">Body</p>
-	<form th:action="@{/posts/${post.id}/delete}" th:method="post">
+	<form th:action="@{|/posts/${post.id}/delete|}" th:method="post">
 		<button type="submit">delete</button>
 	</form>
 </section>

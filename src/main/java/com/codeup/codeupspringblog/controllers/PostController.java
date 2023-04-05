@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Controller
@@ -103,8 +104,13 @@ public class PostController {
     @PostMapping("/{id}/delete")
     public String deletePost(@PathVariable Long id) {
         postRepo.findById(id).ifPresent(post -> {
-            if (post.getUser().getId().equals(getLoggedInUser().getId())) {
-                postRepo.delete(post);
+            System.out.println("post.getUser().getId() = " + post.getUser().getId());
+            System.out.println("getLoggedInUser().getId() = " + getLoggedInUser().getId());
+            if (Objects.equals(post.getUser().getId(), getLoggedInUser().getId())) {
+                System.out.println("deleting post");
+                postRepo.deleteById(id);
+            } else {
+                System.out.println("NOT AUTHORIZED TO DELETE POST");
             }
         });
         return "redirect:/posts";
